@@ -225,6 +225,14 @@
     el("m-attendees").textContent = v.attendees || "(none / hidden)";
   }
 
+  function launcherUrl(obsidianUri) {
+    return (
+      new URL("launch.html", window.location.href).href +
+      "#" +
+      encodeURIComponent(obsidianUri)
+    );
+  }
+
   function renderProfiles() {
     const wrap = el("profiles");
     wrap.innerHTML = "";
@@ -232,11 +240,17 @@
       showStatus("Set your vault name in Settings first.", true);
     }
     (config.profiles || []).forEach((p) => {
-      const btn = document.createElement("button");
-      btn.className = "primary";
-      btn.textContent = p.name;
-      btn.onclick = () => launch(buildUri(p));
-      wrap.appendChild(btn);
+      // A real anchor + genuine user click is what reliably reaches the system
+      // browser (which knows obsidian://). target=_blank opens the launcher,
+      // which then redirects to the obsidian:// URI.
+      const a = document.createElement("a");
+      a.className = "primary";
+      a.textContent = p.name;
+      a.href = launcherUrl(buildUri(p));
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.onclick = () => showStatus("Opening in your browser → Obsidian…");
+      wrap.appendChild(a);
     });
   }
 
