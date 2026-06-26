@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outlook to Obsidian</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <link rel="stylesheet" href="taskpane.css" />
+  </head>
+  <body>
+    <div id="main">
+      <header>
+        <h1>Send to Obsidian</h1>
+        <button id="btn-settings" class="icon" title="Settings">⚙</button>
+      </header>
+
+      <section class="preview">
+        <div class="row"><span class="k">Title</span><span id="m-title" class="v"></span></div>
+        <div class="row"><span class="k">When</span><span id="m-when" class="v"></span></div>
+        <div class="row"><span class="k">Attendees</span><span id="m-attendees" class="v"></span></div>
+      </section>
+
+      <section id="profiles" class="profiles"></section>
+
+      <section class="fallbacks">
+        <button id="btn-copy-attendees" class="ghost">Copy attendees</button>
+        <button id="btn-copy-uri" class="ghost">Copy URI</button>
+      </section>
+
+      <div id="status" class="status"></div>
+    </div>
+
+    <div id="settings" class="hidden">
+      <header>
+        <h1>Settings</h1>
+      </header>
+
+      <label>Vault name
+        <input id="s-vault" type="text" placeholder="exact name shown in Obsidian" />
+      </label>
+
+      <label>Attendee name format
+        <select id="s-nameformat">
+          <option value="firstLast">First Last</option>
+          <option value="display">As shown in Outlook</option>
+          <option value="lastFirst">Last, First</option>
+        </select>
+      </label>
+
+      <label>Attendee separator
+        <input id="s-separator" type="text" />
+      </label>
+
+      <label class="check">
+        <input id="s-includeemail" type="checkbox" /> Include email after each name
+      </label>
+
+      <label>Date format
+        <input id="s-dateformat" type="text" placeholder="YYYY-MM-DD HH:mm" />
+      </label>
+
+      <label>Note content template (<code>{{content}}</code>)
+        <textarea id="s-content" rows="8"></textarea>
+      </label>
+
+      <label>Profiles (JSON — one button each)
+        <textarea id="s-profiles" rows="8" spellcheck="false"></textarea>
+      </label>
+
+      <div class="actions">
+        <button id="btn-settings-save" class="primary">Save</button>
+        <button id="btn-settings-cancel" class="ghost">Cancel</button>
+      </div>
+    </div>
+
+    <script src="format.js"></script>
+    <script src="settings.js"></script>
+    <script src="taskpane.js"></script>
+  </body>
+</html>

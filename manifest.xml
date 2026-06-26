@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+  xsi:type="MailApp">
+
+  <!-- Generated once with uuidgen. Keep stable across releases. -->
+  <Id>5474b197-5940-427a-a406-3279485c67d5</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>leandersabel</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Outlook to Obsidian" />
+  <Description DefaultValue="Send the open meeting's title, attendees, time and agenda to Obsidian via an obsidian:// URI." />
+  <IconUrl DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-80.png" />
+  <SupportUrl DefaultValue="https://github.com/leandersabel/outlook-to-obsidian" />
+
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.3" />
+    </Sets>
+  </Requirements>
+
+  <!-- Fallback for hosts that don't support add-in commands. -->
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/taskpane.html" />
+        <RequestedHeight>320</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadItem</Permissions>
+
+  <!-- Only activate on appointment (calendar) items. -->
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Appointment" FormType="Read" />
+  </Rule>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.3">
+        <bt:Set Name="Mailbox" />
+      </bt:Sets>
+    </Requirements>
+
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <FunctionFile resid="functionFile" />
+
+          <!-- Reading a meeting you were invited to -->
+          <ExtensionPoint xsi:type="AppointmentAttendeeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="msgReadGroup">
+                <Label resid="groupLabel" />
+                <Control xsi:type="Button" id="sendToObsidianBtn">
+                  <Label resid="btnLabel" />
+                  <Supertip>
+                    <Title resid="btnTitle" />
+                    <Description resid="btnTip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="taskpaneUrl" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="icon16" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-16.png" />
+        <bt:Image id="icon32" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-32.png" />
+        <bt:Image id="icon80" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="functionFile" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/commands.html" />
+        <bt:Url id="taskpaneUrl" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/taskpane.html" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="groupLabel" DefaultValue="Obsidian" />
+        <bt:String id="btnLabel" DefaultValue="Send to Obsidian" />
+        <bt:String id="btnTitle" DefaultValue="Send to Obsidian" />
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="btnTip" DefaultValue="Open this meeting in Obsidian with its title, attendees, time and agenda." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

@@ -1,0 +1,76 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1f2330;
+  --muted: #6b7280;
+  --accent: #7c3aed;
+  --accent-fg: #ffffff;
+  --border: #e5e7eb;
+  --error: #b91c1c;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1e1e;
+    --fg: #e6e6e6;
+    --muted: #9aa0aa;
+    --accent: #a78bfa;
+    --accent-fg: #1e1e1e;
+    --border: #34343a;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 13px/1.45 -apple-system, "Segoe UI", system-ui, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  padding: 12px;
+}
+.hidden { display: none !important; }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+h1 { font-size: 15px; margin: 0; }
+
+.preview { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin-bottom: 12px; }
+.row { display: flex; gap: 8px; padding: 2px 0; }
+.row .k { color: var(--muted); min-width: 68px; flex: 0 0 auto; }
+.row .v { word-break: break-word; }
+
+.profiles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.fallbacks { display: flex; gap: 8px; margin-bottom: 8px; }
+
+button {
+  font: inherit;
+  border-radius: 6px;
+  padding: 7px 10px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+}
+button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 600; }
+button.ghost { flex: 1; }
+button.icon { border: none; font-size: 16px; padding: 4px 8px; }
+
+label { display: block; margin-bottom: 10px; color: var(--muted); }
+label.check { display: flex; align-items: center; gap: 6px; }
+input[type="text"], select, textarea {
+  width: 100%;
+  margin-top: 3px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+}
+textarea { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; resize: vertical; }
+.actions { display: flex; gap: 8px; }
+
+.status { min-height: 18px; color: var(--muted); margin-top: 6px; }
+.status.error { color: var(--error); }
