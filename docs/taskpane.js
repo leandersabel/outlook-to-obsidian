@@ -169,7 +169,34 @@
 
   // --- launching obsidian:// (layered fallbacks) -------------------------------
   function launch(uri) {
-    // Primary: a real user-gesture anchor click (best honored by OS handlers).
+    // A task-pane webview usually won't pass obsidian:// to the OS, so we bounce
+    // through an HTTPS launcher page opened in the real browser, which then
+    // redirects to the obsidian:// URI (the system browser knows the protocol).
+    const launcher =
+      new URL("launch.html", window.location.href).href +
+      "#" +
+      encodeURIComponent(uri);
+
+    // Primary: Office API opens the default browser (http/https only — hence the
+    // launcher bounce). Supported on Outlook Windows/Mac/web.
+    try {
+      if (Office.context.ui && Office.context.ui.openBrowserWindow) {
+        Office.context.ui.openBrowserWindow(launcher);
+        showStatus("Opening in your browser → Obsidian…");
+        return;
+      }
+    } catch (e) {
+      /* fall through */
+    }
+
+    // Fallback 1: a normal popup to the launcher.
+    const w = window.open(launcher, "_blank");
+    if (w) {
+      showStatus("Opening in your browser → Obsidian…");
+      return;
+    }
+
+    // Fallback 2: direct anchor click (works in Outlook on the web).
     const a = document.createElement("a");
     a.href = uri;
     a.style.display = "none";

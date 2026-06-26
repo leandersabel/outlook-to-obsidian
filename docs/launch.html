@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Opening Obsidian…</title>
+    <style>
+      body {
+        font: 15px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif;
+        margin: 0; min-height: 100vh; display: flex; align-items: center;
+        justify-content: center; text-align: center; color: #1f2330;
+        background: #faf9fc;
+      }
+      .card { max-width: 360px; padding: 24px; }
+      a.btn {
+        display: inline-block; margin-top: 14px; padding: 10px 18px;
+        background: #7c3aed; color: #fff; text-decoration: none;
+        border-radius: 8px; font-weight: 600;
+      }
+      .muted { color: #6b7280; font-size: 13px; margin-top: 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Opening Obsidian…</h2>
+      <p>If your browser doesn't switch automatically, click below.</p>
+      <a id="open" class="btn" href="#">Open in Obsidian</a>
+      <p class="muted">You can close this tab afterwards.</p>
+    </div>
+    <script>
+      // The obsidian:// URI is passed in the URL hash (never sent to the server).
+      var uri = decodeURIComponent((location.hash || "").slice(1));
+      if (uri) {
+        document.getElementById("open").setAttribute("href", uri);
+        // Auto-redirect; the manual button is the fallback if the browser
+        // blocks the programmatic protocol navigation.
+        setTimeout(function () {
+          location.replace(uri);
+        }, 60);
+      } else {
+        document.querySelector(".card").innerHTML =
+          "<h2>Nothing to open</h2><p>No Obsidian link was provided.</p>";
+      }
+    </script>
+  </body>
+</html>
