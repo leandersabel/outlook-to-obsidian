@@ -8,10 +8,10 @@
 
   <!-- Generated once with uuidgen. Keep stable across releases. -->
   <Id>5474b197-5940-427a-a406-3279485c67d5</Id>
-  <Version>1.0.1.0</Version>
+  <Version>1.0.2.0</Version>
   <ProviderName>leandersabel</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Outlook to Obsidian" />
+  <DisplayName DefaultValue="Obsidian" />
   <Description DefaultValue="Send the open meeting's title, attendees, time and agenda to Obsidian via an obsidian:// URI." />
   <IconUrl DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-32.png?v=2" />
   <HighResolutionIconUrl DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/assets/icon-80.png?v=2" />
