@@ -73,16 +73,21 @@ appear as plain names (no wrapping — nothing runs to wrap them).
 ### 2. QuickAdd + `wrap_attendees.js` (wikilinked attendees)
 Profile:
 ```
-obsidian://quickadd?choice=Meeting&value[title]={{title}}&value[attendees]={{attendees}}&value[date]={{date}}&value[organizer]={{organizer}}
+obsidian://quickadd?choice=Meeting&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-agenda={{body}}
 ```
+QuickAdd passes URI data as `value-<name>=` parameters into **named** variables
+(`{{VALUE:title}}` …). Bare `{{VALUE}}` placeholders can't be filled from a URI and
+will prompt instead — so every variable the choice uses must be one we pass.
+
 In Obsidian:
 1. Copy `wrap_attendees.js` into your QuickAdd user-scripts folder.
-2. Create a QuickAdd **Macro** choice named **`Meeting`**:
+2. Create a QuickAdd **Macro** choice named **`Meeting`** with two steps:
    - Step 1: **User Script** → `wrap_attendees.js`
-     (reads `value[attendees]`, sets `{{VALUE:attendeesWikilinks}}`, and — if enabled —
-     writes the `attendees` frontmatter of the active note).
-   - Step 2: **Template / Capture** that builds the note and inserts
-     `{{VALUE:title}}`, `{{VALUE:attendeesWikilinks}}`, `{{VALUE:date}}`, etc.
+     (reads the `attendees` variable, sets `{{VALUE:attendeesWikilinks}}`, and — if
+     enabled — writes the `attendees` frontmatter of the active note).
+   - Step 2: a **Template** choice that creates the note and inserts
+     `{{VALUE:title}}`, `{{VALUE:attendeesWikilinks}}`, `{{VALUE:date}}`,
+     `{{VALUE:organizer}}`, `{{VALUE:agenda}}`.
 
 ### 3. Advanced URI (frontmatter / run a command)
 The [Advanced URI](https://github.com/Vinzent03/obsidian-advanced-uri) plugin exposes

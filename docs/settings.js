@@ -45,10 +45,12 @@
       },
       {
         name: "QuickAdd: Meeting",
-        // Triggers a QuickAdd choice named "Meeting" and passes variables.
-        // Read them in QuickAdd as {{VALUE:attendees}} etc. See README.
+        // Triggers a QuickAdd choice named "Meeting" and passes NAMED variables.
+        // QuickAdd uses the `value-<name>=` syntax; read them as {{VALUE:title}},
+        // {{VALUE:attendees}}, {{VALUE:date}}, {{VALUE:organizer}}, {{VALUE:agenda}}.
+        // (Bare/unnamed {{VALUE}} can't be filled from a URI and will prompt.)
         uriTemplate:
-          "obsidian://quickadd?choice=Meeting&value[title]={{title}}&value[attendees]={{attendees}}&value[date]={{date}}&value[organizer]={{organizer}}",
+          "obsidian://quickadd?choice=Meeting&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-agenda={{body}}",
       },
     ],
   };
