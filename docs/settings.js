@@ -44,13 +44,13 @@
         uriTemplate: "obsidian://new?vault={{vault}}&name={{title}}&content={{content}}",
       },
       {
-        name: "QuickAdd: Meeting",
-        // Triggers a QuickAdd choice named "Meeting" and passes NAMED variables.
-        // QuickAdd uses the `value-<name>=` syntax; read them as {{VALUE:title}},
-        // {{VALUE:attendees}}, {{VALUE:date}}, {{VALUE:organizer}}, {{VALUE:agenda}}.
+        name: "Meeting (Outlook)",
+        // Triggers the "Meeting (Outlook)" QuickAdd macro and passes NAMED
+        // variables via the `value-<name>=` syntax. The macro picks the project,
+        // wraps attendees, then creates the note from Templates/Meeting (Outlook).md.
         // (Bare/unnamed {{VALUE}} can't be filled from a URI and will prompt.)
         uriTemplate:
-          "obsidian://quickadd?choice=Meeting&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-agenda={{body}}",
+          "obsidian://quickadd?choice=Meeting%20(Outlook)&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-location={{location}}&value-agenda={{body}}",
       },
     ],
   };
