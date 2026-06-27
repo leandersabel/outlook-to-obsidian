@@ -21,36 +21,15 @@
       dedupe: true,
       excludeSelf: [], // seeded at runtime with the signed-in user's address
     },
-    // Markdown body used by the {{content}} placeholder (no-plugin "new note" path).
-    contentTemplate: [
-      "# {{title}}",
-      "",
-      "- **When:** {{start}}",
-      "- **Where:** {{location}}",
-      "- **Organizer:** {{organizer}}",
-      "- **Attendees:** {{attendees}}",
-      "",
-      "## Agenda",
-      "",
-      "{{body}}",
-      "",
-      "## Notes",
-      "",
-    ].join("\n"),
-    // Each profile = one button. Edit/add freely to target any consumer.
+    // Each profile = one button. Triggers a QuickAdd macro, passing NAMED
+    // variables via the `value-<name>=` syntax (bare {{VALUE}} can't be filled
+    // from a URI and would prompt). The macro picks the project, wraps
+    // attendees, then creates the note from Templates/Meeting (Outlook).md.
     profiles: [
       {
-        name: "New note (no plugins)",
-        uriTemplate: "obsidian://new?vault={{vault}}&name={{title}}&content={{content}}",
-      },
-      {
-        name: "Meeting (Outlook)",
-        // Triggers the "Meeting (Outlook)" QuickAdd macro and passes NAMED
-        // variables via the `value-<name>=` syntax. The macro picks the project,
-        // wraps attendees, then creates the note from Templates/Meeting (Outlook).md.
-        // (Bare/unnamed {{VALUE}} can't be filled from a URI and will prompt.)
+        name: "Create meeting note",
         uriTemplate:
-          "obsidian://quickadd?choice=Meeting%20(Outlook)&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-location={{location}}&value-agenda={{body}}",
+          "obsidian://quickadd?vault={{vault}}&choice=Meeting%20(Outlook)&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-location={{location}}&value-agenda={{body}}",
       },
     ],
   };

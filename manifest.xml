@@ -8,7 +8,7 @@
 
   <!-- Generated once with uuidgen. Keep stable across releases. -->
   <Id>5474b197-5940-427a-a406-3279485c67d5</Id>
-  <Version>1.0.5.0</Version>
+  <Version>1.0.6.0</Version>
   <ProviderName>leandersabel</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Obsidian" />
@@ -31,7 +31,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/taskpane.html?v=7" />
+        <SourceLocation DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/taskpane.html?v=8" />
         <RequestedHeight>320</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -91,7 +91,7 @@
       </bt:Images>
       <bt:Urls>
         <bt:Url id="functionFile" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/commands.html" />
-        <bt:Url id="taskpaneUrl" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/taskpane.html?v=7" />
+        <bt:Url id="taskpaneUrl" DefaultValue="https://leandersabel.github.io/outlook-to-obsidian/taskpane.html?v=8" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="Obsidian" />

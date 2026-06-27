@@ -1,7 +1,7 @@
 /* global Office, MTO */
 (function () {
   let config = null;
-  let meeting = null; // {title, attendees[], organizer, organizerEmail, start, end, location, body}
+  let meeting = null; // {title, attendees[], organizer, organizerEmail, start, location, body}
 
   Office.onReady(function (info) {
     if (info.host !== Office.HostType.Outlook) return;
@@ -48,7 +48,6 @@
       organizer: "",
       organizerEmail: "",
       start: null,
-      end: null,
       location: "",
       body: "",
     };
@@ -59,9 +58,8 @@
     tasks.push(readField(item.subject).then((v) => (meeting.title = v || "")));
     // Location
     tasks.push(readField(item.location).then((v) => (meeting.location = v || "")));
-    // Start / End
+    // Start
     tasks.push(readField(item.start).then((v) => (meeting.start = v ? new Date(v) : null)));
-    tasks.push(readField(item.end).then((v) => (meeting.end = v ? new Date(v) : null)));
 
     // Organizer (read mode only; compose has no organizer getter)
     if (item.organizer) {
@@ -144,35 +142,23 @@
   }
 
   function rawValues() {
-    const attendeesStr = MTO.format.formatAttendees(meeting.attendees, config.attendee);
     return {
       vault: config.vault || "",
       title: meeting.title,
       date: formatDate(meeting.start, config.dateFormat),
-      start: formatDate(meeting.start, config.dateFormat),
-      end: formatDate(meeting.end, config.dateFormat),
       location: meeting.location,
       organizer: meeting.organizer,
-      organizerEmail: meeting.organizerEmail,
-      attendees: attendeesStr,
+      attendees: MTO.format.formatAttendees(meeting.attendees, config.attendee),
       body: meeting.body,
     };
   }
 
-  // substitute {{key}} -> encodeURIComponent(value). Unknown keys -> "".
-  function fillTemplate(template, values, encode) {
-    return template.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_, key) => {
-      const v = values[key] != null ? String(values[key]) : "";
-      return encode ? encodeURIComponent(v) : v;
-    });
-  }
-
   function buildUri(profile) {
     const values = rawValues();
-    // {{content}} is itself a template (markdown) -> expand first (unencoded),
-    // then it gets encoded when substituted into the URI.
-    values.content = fillTemplate(config.contentTemplate || "", values, false);
-    return fillTemplate(profile.uriTemplate, values, true);
+    // substitute {{key}} -> encodeURIComponent(value); unknown keys -> "".
+    return profile.uriTemplate.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_, key) =>
+      encodeURIComponent(values[key] != null ? String(values[key]) : "")
+    );
   }
 
   // --- launching obsidian:// (layered fallbacks) -------------------------------
@@ -229,7 +215,7 @@
   function renderPreview() {
     const v = rawValues();
     el("m-title").textContent = v.title || "(no subject)";
-    el("m-when").textContent = v.start || "";
+    el("m-when").textContent = v.date || "";
     el("m-attendees").textContent = v.attendees || "(none / hidden)";
   }
 
@@ -265,10 +251,6 @@
   function bindUi() {
     el("btn-copy-attendees").onclick = () =>
       copy(MTO.format.formatAttendees(meeting.attendees, config.attendee), "Attendees");
-    el("btn-copy-uri").onclick = () => {
-      const p = (config.profiles || [])[0];
-      if (p) copy(buildUri(p), "URI");
-    };
     el("btn-settings").onclick = () => toggleSettings(true);
     el("btn-settings-cancel").onclick = () => toggleSettings(false);
     el("btn-settings-save").onclick = saveSettings;
@@ -283,7 +265,6 @@
       el("s-separator").value = config.attendee.separator || "; ";
       el("s-includeemail").checked = !!config.attendee.includeEmail;
       el("s-dateformat").value = config.dateFormat || "";
-      el("s-content").value = config.contentTemplate || "";
     }
   }
 
@@ -293,7 +274,6 @@
     config.attendee.separator = el("s-separator").value;
     config.attendee.includeEmail = el("s-includeemail").checked;
     config.dateFormat = el("s-dateformat").value.trim();
-    config.contentTemplate = el("s-content").value;
 
     MTO.settings.save(config).then(
       () => {

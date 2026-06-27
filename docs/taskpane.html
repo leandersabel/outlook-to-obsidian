@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Outlook to Obsidian</title>
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-    <link rel="stylesheet" href="taskpane.css?v=7" />
+    <link rel="stylesheet" href="taskpane.css?v=8" />
   </head>
   <body>
     <div id="main">
@@ -24,7 +24,6 @@
 
       <section class="fallbacks">
         <button id="btn-copy-attendees" class="ghost">Copy attendees</button>
-        <button id="btn-copy-uri" class="ghost">Copy URI</button>
       </section>
 
       <div id="status" class="status"></div>
@@ -59,18 +58,14 @@
         <input id="s-dateformat" type="text" placeholder="YYYY-MM-DD HH:mm" />
       </label>
 
-      <label>Note content template (<code>{{content}}</code>)
-        <textarea id="s-content" rows="8"></textarea>
-      </label>
-
       <div class="actions">
         <button id="btn-settings-save" class="primary">Save</button>
         <button id="btn-settings-cancel" class="ghost">Cancel</button>
       </div>
     </div>
 
-    <script src="format.js?v=7"></script>
-    <script src="settings.js?v=7"></script>
-    <script src="taskpane.js?v=7"></script>
+    <script src="format.js?v=8"></script>
+    <script src="settings.js?v=8"></script>
+    <script src="taskpane.js?v=8"></script>
   </body>
 </html>
