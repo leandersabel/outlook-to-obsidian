@@ -95,7 +95,15 @@
       })
     );
 
-    return Promise.all(tasks);
+    return Promise.all(tasks).then(() => {
+      // Include the organizer in the attendee list (dedupe handles overlap).
+      if (meeting.organizer || meeting.organizerEmail) {
+        meeting.attendees.unshift({
+          name: meeting.organizer,
+          email: meeting.organizerEmail,
+        });
+      }
+    });
   }
 
   // A field may be a plain value (read) or an object with getAsync (compose).
