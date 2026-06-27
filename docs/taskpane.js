@@ -276,26 +276,16 @@
       el("s-includeemail").checked = !!config.attendee.includeEmail;
       el("s-dateformat").value = config.dateFormat || "";
       el("s-content").value = config.contentTemplate || "";
-      el("s-profiles").value = JSON.stringify(config.profiles || [], null, 2);
     }
   }
 
   function saveSettings() {
-    let profiles;
-    try {
-      profiles = JSON.parse(el("s-profiles").value);
-      if (!Array.isArray(profiles)) throw new Error("profiles must be an array");
-    } catch (e) {
-      showStatus("Profiles JSON invalid: " + e.message, true);
-      return;
-    }
     config.vault = el("s-vault").value.trim();
     config.attendee.nameFormat = el("s-nameformat").value;
     config.attendee.separator = el("s-separator").value;
     config.attendee.includeEmail = el("s-includeemail").checked;
     config.dateFormat = el("s-dateformat").value.trim();
     config.contentTemplate = el("s-content").value;
-    config.profiles = profiles;
 
     MTO.settings.save(config).then(
       () => {

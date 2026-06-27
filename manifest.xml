@@ -8,7 +8,7 @@
 
   <!-- Generated once with uuidgen. Keep stable across releases. -->
   <Id>5474b197-5940-427a-a406-3279485c67d5</Id>
-  <Version>1.0.2.0</Version>
+  <Version>1.0.3.0</Version>
   <ProviderName>leandersabel</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Obsidian" />

@@ -86,7 +86,11 @@
     } else if (raw && typeof raw === "object") {
       parsed = raw;
     }
-    return deepMerge(DEFAULTS, parsed || {});
+    const merged = deepMerge(DEFAULTS, parsed || {});
+    // Profiles are code-defined, never stored, so they always reflect the
+    // shipped defaults (no manual JSON editing in settings).
+    merged.profiles = DEFAULTS.profiles;
+    return merged;
   }
 
   function save(config) {
