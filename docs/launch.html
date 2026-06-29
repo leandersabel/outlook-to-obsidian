@@ -28,13 +28,30 @@
       <p class="muted">This tab closes itself.</p>
     </div>
     <script>
-      // The obsidian:// URI is passed in the URL hash (never sent to the server).
+      // The obsidian:// URI arrives in the URL hash (never sent to the server).
       // This page is publicly reachable, so an unchecked hash would be an open
-      // redirect / javascript: XSS vector. Whitelist the exact action this tool
-      // emits (obsidian://quickadd?...): restricting to a single scheme+host+path
-      // blocks both, and stops abuse as a redirect into arbitrary obsidian:// commands.
-      var uri = decodeURIComponent((location.hash || "").slice(1)).trim();
-      if (/^obsidian:\/\/quickadd\?/i.test(uri)) {
+      // redirect / javascript: XSS vector. Parse it and allow only the single
+      // action this tool emits (obsidian://quickadd?...). We navigate to the
+      // reconstructed, normalized URL rather than the raw input.
+      function safeUri(raw) {
+        var u;
+        try {
+          u = new URL(decodeURIComponent(raw).trim());
+        } catch (e) {
+          return null;
+        }
+        var ok =
+          u.protocol === "obsidian:" &&
+          u.hostname === "quickadd" &&
+          (u.pathname === "" || u.pathname === "/") &&
+          u.search.length > 1 &&
+          !u.username &&
+          !u.password;
+        return ok ? u.toString() : null;
+      }
+
+      var uri = safeUri((location.hash || "").slice(1));
+      if (uri) {
         document.getElementById("open").setAttribute("href", uri);
         // Fire the protocol, then close this helper tab so it can't be re-clicked.
         setTimeout(function () {
