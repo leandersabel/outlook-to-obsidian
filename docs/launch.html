@@ -28,11 +28,10 @@
       <p class="muted">This tab closes itself.</p>
     </div>
     <script>
-      // The obsidian:// URI arrives in the URL hash (never sent to the server).
-      // This page is publicly reachable, so an unchecked hash would be an open
-      // redirect / javascript: XSS vector. Parse it and allow only the single
-      // action this tool emits (obsidian://quickadd?...). We navigate to the
-      // reconstructed, normalized URL rather than the raw input.
+      // The obsidian:// URI arrives in the URL hash. This page is public, so an
+      // unchecked hash is an open-redirect / javascript: XSS vector: allow only
+      // the one action this tool emits (obsidian://quickadd?...), and navigate to
+      // the reconstructed URL rather than the raw input.
       function safeUri(raw) {
         try {
           var u = new URL(decodeURIComponent(raw));
