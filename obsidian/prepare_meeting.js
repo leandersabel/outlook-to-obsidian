@@ -6,7 +6,7 @@
  *   - {{VALUE:title}}: note-name-safe (illegal filename characters stripped).
  *   - {{VALUE:attendeesYaml}}: names as a YAML wikilink list for frontmatter.
  *   - {{VALUE:agenda}}: invite body, minus the Teams join block, with stray
- *     {{ }} / <% %> defused so they can't crash Templater.
+ *     {{ }} / <% %> defused so they can't crash the template engine.
  */
 
 // Illegal note-name characters (e.g. ":") crash QuickAdd's file creation.
