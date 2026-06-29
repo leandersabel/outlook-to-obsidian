@@ -53,6 +53,10 @@ obsidian/             vault-side companion (NOT the add-in)
   README.md           QuickAdd setup
 ```
 
+## License
+
+[MIT](LICENSE)
+
 ## Limitations
 
 - Large meetings may hide the attendee list; the add-in shows what Outlook exposes.
