@@ -83,7 +83,8 @@
         if (item.body && item.body.getAsync) {
           item.body.getAsync(Office.CoercionType.Text, (res) => {
             if (res.status === Office.AsyncResultStatus.Succeeded) {
-              meeting.body = (res.value || "").trim();
+              // Cap the body so a huge invite can't blow past practical URI limits.
+              meeting.body = (res.value || "").trim().slice(0, 4000);
             }
             resolve();
           });
@@ -182,7 +183,7 @@
 
   function launcherUrl(obsidianUri) {
     return (
-      new URL("launch.html?v=2", window.location.href).href +
+      new URL("launch.html?v=3", window.location.href).href +
       "#" +
       encodeURIComponent(obsidianUri)
     );
