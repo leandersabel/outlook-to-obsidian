@@ -34,42 +34,20 @@
     ],
   };
 
-  function deepMerge(base, override) {
-    if (Array.isArray(base)) return override != null ? override : base;
-    if (typeof base === "object" && base) {
-      const out = {};
-      for (const k of Object.keys(base)) {
-        out[k] = k in (override || {}) ? deepMerge(base[k], override[k]) : base[k];
-      }
-      // keep any extra keys the user added
-      for (const k of Object.keys(override || {})) if (!(k in out)) out[k] = override[k];
-      return out;
-    }
-    return override != null ? override : base;
-  }
-
   function load() {
-    let raw = null;
+    let parsed = {};
     try {
-      raw = Office.context.roamingSettings.get(KEY);
+      const raw = Office.context.roamingSettings.get(KEY);
+      if (raw) parsed = JSON.parse(raw);
     } catch (e) {
-      raw = null;
+      parsed = {};
     }
-    let parsed = null;
-    if (typeof raw === "string") {
-      try {
-        parsed = JSON.parse(raw);
-      } catch (e) {
-        parsed = null;
-      }
-    } else if (raw && typeof raw === "object") {
-      parsed = raw;
-    }
-    const merged = deepMerge(DEFAULTS, parsed || {});
-    // Profiles are code-defined, never stored, so they always reflect the
-    // shipped defaults (no manual JSON editing in settings).
-    merged.profiles = DEFAULTS.profiles;
-    return merged;
+    return {
+      vault: parsed.vault || DEFAULTS.vault,
+      dateFormat: parsed.dateFormat || DEFAULTS.dateFormat,
+      attendee: { ...DEFAULTS.attendee, ...(parsed.attendee || {}) },
+      profiles: DEFAULTS.profiles, // code-defined, never stored
+    };
   }
 
   function save(config) {
@@ -87,5 +65,5 @@
   }
 
   window.MTO = window.MTO || {};
-  window.MTO.settings = { load, save, DEFAULTS };
+  window.MTO.settings = { load, save };
 })();

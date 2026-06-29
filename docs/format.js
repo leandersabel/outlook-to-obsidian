@@ -10,32 +10,6 @@
  * Exposed globally (no bundler): window.MTO.format
  */
 (function () {
-  const PARTICLES = new Set([
-    "von", "van", "de", "der", "den", "di", "du", "le", "la", "el", "ten", "ter",
-  ]);
-
-  function capWord(w) {
-    if (!w) return w;
-    if (w.includes("-")) return w.split("-").map(capWord).join("-");
-    if (w.includes("'")) {
-      return w
-        .split("'")
-        .map((p) => (p.length ? p[0].toUpperCase() + p.slice(1) : p))
-        .join("'");
-    }
-    // Preserve names that are already mixed-case (e.g. "McLeod", "DeAngelo").
-    if (/[a-z]/.test(w) && /[A-Z]/.test(w)) return w;
-    return w[0].toUpperCase() + w.slice(1).toLowerCase();
-  }
-
-  function titleCase(name) {
-    return name
-      .split(/\s+/)
-      .filter(Boolean)
-      .map((w, i) => (i > 0 && PARTICLES.has(w.toLowerCase()) ? w.toLowerCase() : capWord(w)))
-      .join(" ");
-  }
-
   // Outlook display names are usually clean; we only reshape, not aggressively
   // re-case. nameFormat decides the shape.
   function normalizeName(displayName, nameFormat) {
@@ -99,5 +73,5 @@
   }
 
   window.MTO = window.MTO || {};
-  window.MTO.format = { formatAttendees, normalizeName, titleCase };
+  window.MTO.format = { formatAttendees };
 })();
