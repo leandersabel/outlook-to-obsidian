@@ -17,11 +17,9 @@ The add-in emits **plain names** (`Anna Müller; Bob Smith`); Obsidian wraps the
 
 ## Install
 
-1. **Host the code:** fork this repo, enable **GitHub Pages** (Settings → Pages → Source
-   `main` / `/docs`), and update the URLs in `manifest.xml` to your username. (Or point
-   the manifest at an existing instance — config is per-mailbox.)
-2. **Sideload `manifest.xml`:** in Outlook → open an email → **Apps / Get Apps** →
-   **Add a custom add-in → From File…**.
+1. Download **`manifest.xml`** (it points at the hosted add-in).
+2. In Outlook, open an email → **Apps / Get Apps** → **Add a custom add-in → From File…**
+   → pick `manifest.xml`.
 3. Open a calendar event → ribbon → **Send to Obsidian** → **⚙ Settings**, set your
    **vault name** → **Save**.
 
@@ -29,6 +27,13 @@ The add-in emits **plain names** (`Anna Müller; Bob Smith`); Obsidian wraps the
 
 The button fires an `obsidian://quickadd?...` URI into a QuickAdd macro. The vault files
 and setup are in **[`obsidian/`](obsidian/)**.
+
+## Self-host (optional)
+
+Steps 1–2 use the hosted add-in, which runs whatever this repo currently deploys. To run
+code you control instead: fork the repo, enable **GitHub Pages** (Settings → Pages →
+Source `main` / `/docs`), update the URLs in `manifest.xml` to your username, and
+sideload that manifest.
 
 ## Files
 
