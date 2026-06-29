@@ -34,20 +34,12 @@
       // action this tool emits (obsidian://quickadd?...). We navigate to the
       // reconstructed, normalized URL rather than the raw input.
       function safeUri(raw) {
-        var u;
         try {
-          u = new URL(decodeURIComponent(raw).trim());
-        } catch (e) {
-          return null;
-        }
-        var ok =
-          u.protocol === "obsidian:" &&
-          u.hostname === "quickadd" &&
-          (u.pathname === "" || u.pathname === "/") &&
-          u.search.length > 1 &&
-          !u.username &&
-          !u.password;
-        return ok ? u.toString() : null;
+          var u = new URL(decodeURIComponent(raw));
+          if (u.protocol === "obsidian:" && u.hostname === "quickadd")
+            return u.toString();
+        } catch (e) {}
+        return null;
       }
 
       var uri = safeUri((location.hash || "").slice(1));
