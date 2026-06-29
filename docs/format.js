@@ -5,7 +5,7 @@
  *   - Outlook owns NAMES. This file turns Office.js attendee objects into a
  *     clean, de-duplicated, delimited string of display names.
  *   - It deliberately does NOT wrap names in [[ ]] - wikilinks are an Obsidian
- *     concept and are added on the Obsidian side (wrap_attendees.js).
+ *     concept and are added on the Obsidian side (prepare_meeting.js).
  *
  * Exposed globally (no bundler): window.MTO.format
  */

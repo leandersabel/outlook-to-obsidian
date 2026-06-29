@@ -12,7 +12,7 @@ Office.js and hands the data to a QuickAdd macro in Obsidian.
 | Concern | Owner |
 | --- | --- |
 | Correct attendee **names** (clean, de-duplicated, "First Last") | The Outlook add-in — Outlook knows names best |
-| Wrapping names in `[[ ]]`, building the note | Obsidian (QuickAdd + `wrap_attendees.js`) |
+| Wrapping names in `[[ ]]`, building the note | Obsidian (QuickAdd + `prepare_meeting.js`) |
 
 The add-in emits **plain names** (`Anna Müller; Bob Smith`); Obsidian wraps them.
 
@@ -47,8 +47,8 @@ obsidian://quickadd?vault={{vault}}&choice=Meeting%20(Outlook)&value-title={{tit
 QuickAdd fills **named** variables via `value-<name>=` (bare `{{VALUE}}` can't be filled
 from a URI and would prompt). Set up a QuickAdd **Macro** named **`Meeting (Outlook)`**:
 
-1. **User Script** → `wrap_attendees.js` — sets `{{VALUE:attendeesYaml}}` and cleans
-   `{{VALUE:agenda}}`.
+1. **User Script** → `prepare_meeting.js` — sets `{{VALUE:attendeesYaml}}`, sanitizes
+   `{{VALUE:title}}` for the filename, and cleans `{{VALUE:agenda}}`.
 2. (optional) your project picker, e.g. `get_project_names.js`.
 3. **Template** → `Templates/Meeting (Outlook).md`, file name `{{VALUE:title}}`. The
    template consumes `{{VALUE:date}}`, `{{VALUE:attendeesYaml}}`, `{{VALUE:organizer}}`,
@@ -67,7 +67,7 @@ docs/                 GitHub Pages root
   commands.html       placeholder FunctionFile
   assets/icon-*.png   ribbon icons
 ```
-`wrap_attendees.js` and `Templates/Meeting (Outlook).md` live in your vault, not here.
+`prepare_meeting.js` and `Templates/Meeting (Outlook).md` live in your vault, not here.
 
 ## Limitations
 
