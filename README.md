@@ -40,9 +40,8 @@ The add-in emits **plain names** (`Anna Müller; Bob Smith`); Obsidian wraps the
 
 ## Obsidian setup
 
-The button fires an `obsidian://quickadd?...` URI into a QuickAdd macro. Ready-to-use
-vault files and step-by-step setup are in **[`obsidian/`](obsidian/)** — only the
-QuickAdd plugin is required.
+The button fires an `obsidian://quickadd?...` URI into a QuickAdd macro. The vault files
+and setup are in **[`obsidian/`](obsidian/)** — only the QuickAdd plugin is required.
 
 ## Files
 
