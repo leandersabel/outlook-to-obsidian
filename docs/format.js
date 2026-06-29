@@ -41,13 +41,15 @@
       .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   // first.last in the email is authoritative for ordering. Use the display
-  // words only to recover real casing/spelling and expand single-letter initials.
+  // words to recover real casing/spelling and to expand an abbreviated local
+  // part to the full name (j -> John, benj -> Benjamin) - any display word the
+  // part is a prefix of wins. Email-like tokens are skipped so a display name
+  // that is just the address can't leak in as a name.
   function enrichFromDisplay(emailParts, display) {
-    const dw = display ? display.replace(/,/g, " ").split(/\s+/).filter(Boolean) : [];
-    const resolved = emailParts.map((ep) => {
-      const m = dw.find((w) => fold(w) === ep || fold(w).startsWith(ep));
-      return m && (ep.length === 1 || fold(m) === ep) ? m : ep;
-    });
+    const dw = (display ? display.replace(/,/g, " ").split(/\s+/) : []).filter(
+      (w) => w && !w.includes("@")
+    );
+    const resolved = emailParts.map((ep) => dw.find((w) => fold(w).startsWith(ep)) || ep);
     // Drop middle parts (e.g. anna.marie.muller) down to first + last.
     return resolved.length > 2 ? [resolved[0], resolved[resolved.length - 1]] : resolved;
   }
