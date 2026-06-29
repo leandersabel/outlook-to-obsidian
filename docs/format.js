@@ -66,7 +66,7 @@
 
   // Resolve an attendee to an ordered, capitalized [first, ...middle, last].
   function nameParts(display, email) {
-    const local = email ? email.split("@")[0].replace(/\d+$/g, "") : "";
+    const local = email ? email.split("@")[0].replace(/\d+$/, "") : "";
     const emailParts = local.split(/[._-]+/).filter(Boolean);
 
     let parts;
