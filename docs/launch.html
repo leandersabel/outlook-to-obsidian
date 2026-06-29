@@ -29,10 +29,12 @@
     </div>
     <script>
       // The obsidian:// URI is passed in the URL hash (never sent to the server).
-      // Whitelist the scheme: this page is publicly reachable, so an unchecked
-      // hash would be an open redirect / javascript: XSS vector.
+      // This page is publicly reachable, so an unchecked hash would be an open
+      // redirect / javascript: XSS vector. Whitelist the exact action this tool
+      // emits (obsidian://quickadd?...): restricting to a single scheme+host+path
+      // blocks both, and stops abuse as a redirect into arbitrary obsidian:// commands.
       var uri = decodeURIComponent((location.hash || "").slice(1)).trim();
-      if (/^obsidian:\/\//i.test(uri)) {
+      if (/^obsidian:\/\/quickadd\?/i.test(uri)) {
         document.getElementById("open").setAttribute("href", uri);
         // Fire the protocol, then close this helper tab so it can't be re-clicked.
         setTimeout(function () {
