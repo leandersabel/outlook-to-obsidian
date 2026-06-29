@@ -182,7 +182,7 @@
 
   function launcherUrl(obsidianUri) {
     return (
-      new URL("launch.html", window.location.href).href +
+      new URL("launch.html?v=2", window.location.href).href +
       "#" +
       encodeURIComponent(obsidianUri)
     );

@@ -25,18 +25,22 @@
       <h2>Opening Obsidian…</h2>
       <p>If your browser doesn't switch automatically, click below.</p>
       <a id="open" class="btn" href="#">Open in Obsidian</a>
-      <p class="muted">You can close this tab afterwards.</p>
+      <p class="muted">This tab closes itself.</p>
     </div>
     <script>
       // The obsidian:// URI is passed in the URL hash (never sent to the server).
       var uri = decodeURIComponent((location.hash || "").slice(1));
       if (uri) {
         document.getElementById("open").setAttribute("href", uri);
-        // Auto-redirect; the manual button is the fallback if the browser
-        // blocks the programmatic protocol navigation.
+        // Fire the protocol, then close this helper tab so it can't be re-clicked.
         setTimeout(function () {
-          location.replace(uri);
+          location.href = uri;
         }, 60);
+        setTimeout(function () {
+          // window.open('','_self') lets a target=_blank tab close itself in Chrome.
+          window.open("", "_self");
+          window.close();
+        }, 900);
       } else {
         document.querySelector(".card").innerHTML =
           "<h2>Nothing to open</h2><p>No Obsidian link was provided.</p>";
