@@ -38,27 +38,17 @@ The add-in emits **plain names** (`Anna Müller; Bob Smith`); Obsidian wraps the
 > If your tenant blocks custom sideloading, ask IT to centrally deploy the manifest
 > (read-only, `ReadItem` only).
 
-## Obsidian setup (QuickAdd)
+## Obsidian setup
 
-The button fires:
-```
-obsidian://quickadd?vault={{vault}}&choice=Meeting%20(Outlook)&value-title={{title}}&value-attendees={{attendees}}&value-date={{date}}&value-organizer={{organizer}}&value-location={{location}}&value-agenda={{body}}
-```
-QuickAdd fills **named** variables via `value-<name>=` (bare `{{VALUE}}` can't be filled
-from a URI and would prompt). Set up a QuickAdd **Macro** named **`Meeting (Outlook)`**:
-
-1. **User Script** → `prepare_meeting.js` — sets `{{VALUE:attendeesYaml}}`, sanitizes
-   `{{VALUE:title}}` for the filename, and cleans `{{VALUE:agenda}}`.
-2. (optional) your project picker, e.g. `get_project_names.js`.
-3. **Template** → `Templates/Meeting (Outlook).md`, file name `{{VALUE:title}}`. The
-   template consumes `{{VALUE:date}}`, `{{VALUE:attendeesYaml}}`, `{{VALUE:organizer}}`,
-   `{{VALUE:agenda}}` and moves the note into `Journal/Meetings/YYYY/…`.
+The button fires an `obsidian://quickadd?...` URI into a QuickAdd macro. Ready-to-use
+vault files and step-by-step setup are in **[`obsidian/`](obsidian/)** — only the
+QuickAdd plugin is required.
 
 ## Files
 
 ```
 manifest.xml          sideloaded; points at the Pages URLs
-docs/                 GitHub Pages root
+docs/                 GitHub Pages root — the add-in itself
   taskpane.html/.css  UI
   taskpane.js         reads the meeting, builds + launches the URI
   format.js           attendee name normalization (no wikilink wrapping)
@@ -66,8 +56,11 @@ docs/                 GitHub Pages root
   launch.html         HTTPS bounce page → obsidian://
   commands.html       placeholder FunctionFile
   assets/icon-*.png   ribbon icons
+obsidian/             vault-side companion (NOT the add-in)
+  prepare_meeting.js  QuickAdd user script
+  Meeting (Outlook).md  note template
+  README.md           QuickAdd setup
 ```
-`prepare_meeting.js` and `Templates/Meeting (Outlook).md` live in your vault, not here.
 
 ## Limitations
 
